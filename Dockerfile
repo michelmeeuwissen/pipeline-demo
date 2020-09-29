@@ -10,5 +10,4 @@ COPY . ./
 RUN ng build --prod
 
 FROM nginx
-COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=compile-image /opt/ng/dist/pipeline-demo /usr/share/nginx/html
