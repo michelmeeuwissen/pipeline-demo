@@ -15,7 +15,7 @@ spec:
         app: demo
     spec:
       containers:
-        - image: "michel-sandbox/demo"
+        - image: "image-registry.openshift-image-registry.svc:5000/michel-sandbox/demo:latest"
           imagePullPolicy: IfNotPresent
           name: demo
           livenessProbe:
