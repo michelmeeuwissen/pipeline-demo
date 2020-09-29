@@ -1,4 +1,4 @@
-FROM node:13.3.0 AS compile-image
+FROM node:12.18.4 AS compile-image
 
 WORKDIR /opt/ng
 COPY package.json ./
