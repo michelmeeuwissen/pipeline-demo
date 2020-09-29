@@ -9,7 +9,7 @@ ENV PATH="./node_modules/.bin:$PATH"
 COPY . ./
 RUN ng build --prod
 
-FROM nginx:1:18
+FROM nginx:1.18
 RUN cp ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=compile-image /opt/ng/dist/pipeline-demo /usr/share/nginx/html
 
