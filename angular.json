@@ -107,6 +107,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "pipeline-demo"
+    }
+  },
+  "defaultProject": "pipeline-demo",
+  "cli": {
+    "analytics": false
+  }
 }
