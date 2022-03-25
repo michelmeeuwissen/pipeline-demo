@@ -9,7 +9,7 @@ ENV PATH="./node_modules/.bin:$PATH"
 COPY . ./
 RUN ng build --prod
 
-FROM registry.redhat.io/rhel8/nginx-118
+FROM bitnami/nginx:latest
 RUN cp docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /opt/ng/dist/pipeline-demo /usr/share/nginx/html
 
