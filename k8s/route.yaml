@@ -2,12 +2,12 @@ apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
   labels:
-    app: demo
-  name: demo
+    app: pipeline-demo
+  name: pipeline-demo
 spec:
   port:
     targetPort: 8080-tcp
   to:
     kind: Service
-    name: demo
+    name: pipeline-demo
     weight: 100

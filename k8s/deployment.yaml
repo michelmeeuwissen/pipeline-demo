@@ -2,42 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: demo
-  name: demo
+    app: pipeline-demo
+  name: pipeline-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: demo
+      app: pipeline-demo
   template:
     metadata:
       labels:
-        app: demo
+        app: pipeline-demo
     spec:
       containers:
-        - image: "image-registry.openshift-image-registry.svc:5000/michel-sandbox/demo:latest"
-          imagePullPolicy: IfNotPresent
-          name: demo
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 60
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 3
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /
-              port: 8080
-              scheme: HTTP
-            initialDelaySeconds: 15
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 3
+        - image: "image-registry.openshift-image-registry.svc:5000/michel-zandbak/pipeline-demo:latest"
+          imagePullPolicy: Always
+          name: pipeline-demo
           ports:
             - containerPort: 8080
               protocol: TCP
@@ -46,8 +26,3 @@ spec:
               memory: 256Mi
             requests:
               memory: 100Mi
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
