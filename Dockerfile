@@ -1,17 +1,8 @@
+# Builder image
 FROM registry.access.redhat.com/ubi8/nodejs-16 as builder
-
+COPY . .
 USER root
-RUN chown -R 1001:1001 /opt/ng
-USER 1001
-
-WORKDIR /opt/ng
-COPY package.json ./
-RUN npm install
-
-ENV PATH="./node_modules/.bin:$PATH"
-
-COPY . ./
-RUN ng build --prod
+RUN npm install && npm run build
 
 FROM registry.access.redhat.com/ubi8/nginx-120
 
@@ -23,6 +14,6 @@ COPY ./docker/nginx/default.conf /etc/nginx/nginx.conf
 
 WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
-COPY --from=builder /opt/ng/dist/pipeline-demo .
+COPY --from=builder /opt/app-root/src/dist/pipeline-demo .
 
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
