@@ -1,0 +1,16 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: Trigger
+metadata:
+  name: pipeline-demo-trigger
+spec:
+  serviceAccountName: pipeline
+  interceptors:
+    - ref:
+        name: "github"
+      params:
+        - name: "eventTypes"
+          value: ["push"]
+  bindings:
+    - ref: pipeline-demo
+  template:
+    ref: pipeline-demo
