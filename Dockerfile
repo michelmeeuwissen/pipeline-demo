@@ -1,4 +1,4 @@
-FROM node:16.14.2 as builder
+FROM registry.access.redhat.com/ubi8/nodejs-16 as builder
 
 WORKDIR /opt/ng
 COPY package.json ./
@@ -9,10 +9,15 @@ ENV PATH="./node_modules/.bin:$PATH"
 COPY . ./
 RUN ng build --prod
 
-FROM bitnami/nginx:latest
-RUN cp docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /opt/ng/dist/pipeline-demo /usr/share/nginx/html
+FROM registry.access.redhat.com/ubi8/nginx-120
 
-RUN chown -R 1001:1001 /var/cache/nginx/client_temp
-
+USER root
+RUN chown -R 1001:1001 /usr/share/nginx/html
 USER 1001
+COPY ./docker/nginx/default.conf /etc/nginx/nginx.conf
+WORKDIR /usr/share/nginx/html
+RUN rm -rf ./*
+COPY --from=builder /opt/ng/dist/pipeline-demo .
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
